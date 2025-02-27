@@ -8,7 +8,7 @@ const CAPTION_IMAGE = `${IMGFLIP_API}/caption_image`;
 
 // ImgBB API for image uploads
 const IMGBB_API = 'https://api.imgbb.com/1/upload';
-const IMGBB_KEY = '3734323deff2146ec69d8e69fb6d15e1'; // Replace with your actual key or use env variable
+const IMGBB_KEY = 'process.env.NEXT_PUBLIC_IMGBB_KEY'; // Replace with your actual key or use env variable
 
 // Fetch trending memes from Imgflip API
 export const fetchTrendingMemes = async (): Promise<Meme[]> => {
