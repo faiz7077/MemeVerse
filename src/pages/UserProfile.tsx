@@ -1,21 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { useInView } from 'react-intersection-observer';
-// import { motion } from 'framer-motion';
-// import { Search, Filter, SlidersHorizontal, TrendingUp, Clock, MessageCircle, ThumbsUp } from 'lucide-react';
-// import { RootState } from '../store';
-// import { 
-//   fetchMemesByCategoryAsync, 
-//   searchMemesAsync, 
-//   setCategory, 
-//   setSearchTerm, 
-//   setSortBy, 
-//   incrementPage 
-// } from '../store/slices/memesSlice';
-// import MemeGrid from '../components/common/MemeGrid';
-// import LoadingSpinner from '../components/common/LoadingSpinner';
-// import useDebounce from '../hooks/useDebounce';
-import MemeCard from '../components/common/MemeCard';
 import { motion } from 'framer-motion';
 
 const IMGBB_API = 'https://api.imgbb.com/1/upload';
@@ -30,6 +13,7 @@ const UserProfile: React.FC = () => {
         const response = await fetch(`${IMGBB_API}?key=${IMGBB_KEY}`);
         const data = await response.json();
         if (data.success) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           setImages(data.data.map((img: any) => img.url));
         }
       } catch (error) {
@@ -47,7 +31,9 @@ const UserProfile: React.FC = () => {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {images.map((image, index) => (
-          <MemeCard key={index} imageUrl={image} />
+          <div key={index} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
+            <img src={image} alt={`Uploaded ${index}`} className="w-full h-48 object-cover rounded-md" />
+          </div>
         ))}
       </div>
     </div>

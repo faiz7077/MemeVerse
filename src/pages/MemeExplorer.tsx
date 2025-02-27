@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import { Search, Filter, SlidersHorizontal, TrendingUp, Clock, MessageCircle, ThumbsUp } from 'lucide-react';
-import { RootState } from '../store';
+import { AppDispatch, RootState } from '../store';
 import { 
   fetchMemesByCategoryAsync, 
   searchMemesAsync, 

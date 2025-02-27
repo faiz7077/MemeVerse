@@ -11,37 +11,37 @@ const IMGBB_API = 'https://api.imgbb.com/1/upload';
 const IMGBB_KEY = '3734323deff2146ec69d8e69fb6d15e1'; // Replace with your actual key or use env variable
 
 // Fetch trending memes from Imgflip API
-// export const fetchTrendingMemes = async (): Promise<Meme[]> => {
-//   try {
-//     const response = await axios.get(GET_MEMES);
-//     if (response.data.success) {
-//       // Return only the first 10 memes for trending section
-//       return response.data.data.memes.slice(0, 20);
-//     }
-//     throw new Error('Failed to fetch trending memes');
-//   } catch (error) {
-//     console.error('Error fetching trending memes:', error);
-//     return [];
-//   }
-// };
-
-export const fetchTrendingMemes = async (page: number, pageSize: number): Promise<Meme[]> => {
+export const fetchTrendingMemes = async (): Promise<Meme[]> => {
   try {
     const response = await axios.get(GET_MEMES);
     if (response.data.success) {
-      const allMemes = response.data.data.memes;
-      console.log('allMemes', allMemes);
-      const startIndex = (page - 1) * pageSize;
-      const endIndex = startIndex + pageSize;
-      
-      return allMemes.slice(startIndex, endIndex);
+      // Return only the first 10 memes for trending section
+      return response.data.data.memes.slice(0, 20);
     }
-    throw new Error('Failed to fetch memes');
+    throw new Error('Failed to fetch trending memes');
   } catch (error) {
-    console.error('Error fetching memes:', error);
+    console.error('Error fetching trending memes:', error);
     return [];
   }
 };
+
+// export const fetchTrendingMemes = async (page: number, pageSize: number): Promise<Meme[]> => {
+//   try {
+//     const response = await axios.get(GET_MEMES);
+//     if (response.data.success) {
+//       const allMemes = response.data.data.memes;
+//       console.log('allMemes', allMemes);
+//       const startIndex = (page - 1) * pageSize;
+//       const endIndex = startIndex + pageSize;
+      
+//       return allMemes.slice(startIndex, endIndex);
+//     }
+//     throw new Error('Failed to fetch memes');
+//   } catch (error) {
+//     console.error('Error fetching memes:', error);
+//     return [];
+//   }
+// };
 
 // Fetch memes by category (simulated with Imgflip API)
 export const fetchMemesByCategory = async (category: string, page: number): Promise<Meme[]> => {
@@ -49,7 +49,7 @@ export const fetchMemesByCategory = async (category: string, page: number): Prom
     const response = await axios.get(GET_MEMES);
     if (response.data.success) {
       const allMemes = response.data.data.memes;
-      const pageSize = 200;
+      const pageSize = 100;
       const startIndex = (page - 1) * pageSize;
       const endIndex = startIndex + pageSize;
       
