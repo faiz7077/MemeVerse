@@ -86,7 +86,7 @@ const HomePage: React.FC = () => {
           </Link>
           
           <Link 
-            to="/upload" 
+            to="/profile" 
             className="btn-secondary flex items-center space-x-2 text-lg px-6 py-3"
           >
             <span>Upload Your Own</span>
