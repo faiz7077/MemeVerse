@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
   const navLinks = [
     { path: '/', label: 'Home', icon: <Home size={20} /> },
     { path: '/explore', label: 'Explore', icon: <Compass size={20} /> },
-    { path: '/upload', label: 'Upload', icon: <Upload size={20} /> },
+    // { path: '/upload', label: 'Upload', icon: <Upload size={20} /> },
     { path: '/profile', label: 'Profile', icon: <User size={20} /> },
     { path: '/leaderboard', label: 'Leaderboard', icon: <Trophy size={20} /> },
   ];
