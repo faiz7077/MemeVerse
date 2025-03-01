@@ -352,153 +352,156 @@
 // export default MemeUpload;
 
 
+// Upload is added in the profile page only
 
-import React, { useState, useRef } from "react";
-import { Upload, X, Check, AlertCircle, Image } from "lucide-react";
-import { motion } from "framer-motion";
 
-const UploadComponent: React.FC = () => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string>("");
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string>("");
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
+// import React, { useState, useRef } from "react";
+// import { Upload, X, Check, AlertCircle, Image } from "lucide-react";
+// import { motion } from "framer-motion";
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
+// const UploadComponent: React.FC = () => {
+//   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+//   const [previewUrl, setPreviewUrl] = useState<string>("");
+//   const [isUploading, setIsUploading] = useState(false);
+//   const [uploadError, setUploadError] = useState<string>("");
+//   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+//   const fileInputRef = useRef<HTMLInputElement>(null);
 
-    // Validate file type
-    if (!file.type.match("image.*")) {
-      setUploadError("Please select an image file (PNG, JPG, GIF)");
-      return;
-    }
+//   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const file = e.target.files?.[0];
+//     if (!file) return;
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setUploadError("File size should be less than 5MB");
-      return;
-    }
+//     // Validate file type
+//     if (!file.type.match("image.*")) {
+//       setUploadError("Please select an image file (PNG, JPG, GIF)");
+//       return;
+//     }
 
-    setSelectedFile(file);
-    setUploadError("");
+//     // Validate file size (max 5MB)
+//     if (file.size > 5 * 1024 * 1024) {
+//       setUploadError("File size should be less than 5MB");
+//       return;
+//     }
 
-    // Create preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
+//     setSelectedFile(file);
+//     setUploadError("");
 
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      setUploadError("Please select an image to upload");
-      return;
-    }
+//     // Create preview
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       setPreviewUrl(reader.result as string);
+//     };
+//     reader.readAsDataURL(file);
+//   };
 
-    setIsUploading(true);
-    setUploadError("");
+//   const handleUpload = async () => {
+//     if (!selectedFile) {
+//       setUploadError("Please select an image to upload");
+//       return;
+//     }
 
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
-    if (!uploadPreset) {
-      setUploadError("Cloudinary upload preset is not defined");
-      setIsUploading(false);
-      return;
-    }
-    formData.append("upload_preset", uploadPreset);
 
-    try {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+//     setIsUploading(true);
+//     setUploadError("");
 
-      if (!response.ok) throw new Error("Upload failed");
+//     const formData = new FormData();
+//     formData.append("file", selectedFile);
+//     const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+//     if (!uploadPreset) {
+//       setUploadError("Cloudinary upload preset is not defined");
+//       setIsUploading(false);
+//       return;
+//     }
+//     formData.append("upload_preset", uploadPreset);
 
-      const data = await response.json();
-      setUploadedImageUrl(data.secure_url); // Cloudinary URL of the uploaded image
-    } catch (error) {
-      setUploadError("Failed to upload image. Please try again.");
-    } finally {
-      setIsUploading(false);
-    }
-  };
+//     try {
+//       const response = await fetch(
+//         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+//         {
+//           method: "POST",
+//           body: formData,
+//         }
+//       );
 
-  return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Upload an Image</h1>
+//       if (!response.ok) throw new Error("Upload failed");
 
-      {/* Image Preview */}
-      {previewUrl && (
-        <div className="relative w-full flex justify-center">
-          <img src={previewUrl} alt="Preview" className="max-w-full h-64 rounded-lg shadow-md" />
-          <button
-            type="button"
-            onClick={() => {
-              setSelectedFile(null);
-              setPreviewUrl("");
-            }}
-            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition"
-          >
-            <X size={18} />
-          </button>
-        </div>
-      )}
+//       const data = await response.json();
+//       setUploadedImageUrl(data.secure_url); // Cloudinary URL of the uploaded image
+//     } catch (error) {
+//       setUploadError("Failed to upload image. Please try again.");
+//     } finally {
+//       setIsUploading(false);
+//     }
+//   };
 
-      Upload Input
-      <div className="mt-4">
-        <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="btn-primary flex items-center space-x-2"
-        >
-          <Upload size={20} />
-          <span>Select Image</span>
-        </button>
-      </div>
+//   return (
+//     <div className="max-w-2xl mx-auto p-6">
+//       <h1 className="text-2xl font-bold mb-4">Upload an Image</h1>
 
-      {/* Upload Button */}
-      {previewUrl && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4">
-          <button
-            onClick={handleUpload}
-            className="btn-primary w-full py-3 flex items-center justify-center"
-            disabled={isUploading}
-          >
-            {isUploading ? "Uploading..." : "Upload to Cloudinary"}
-          </button>
-        </motion.div>
-      )}
+//       {/* Image Preview */}
+//       {previewUrl && (
+//         <div className="relative w-full flex justify-center">
+//           <img src={previewUrl} alt="Preview" className="max-w-full h-64 rounded-lg shadow-md" />
+//           <button
+//             type="button"
+//             onClick={() => {
+//               setSelectedFile(null);
+//               setPreviewUrl("");
+//             }}
+//             className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition"
+//           >
+//             <X size={18} />
+//           </button>
+//         </div>
+//       )}
 
-      {/* Upload Success */}
-      {uploadedImageUrl && (
-        <div className="mt-4 p-4 border border-green-500 rounded-md text-green-600">
-          <Check size={20} className="inline-block mr-2" />
-          Upload successful! <a href={uploadedImageUrl} target="_blank" className="text-blue-500">View Image</a>
-        </div>
-      )}
+//       Upload Input
+//       <div className="mt-4">
+//         <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileChange} />
+//         <button
+//           type="button"
+//           onClick={() => fileInputRef.current?.click()}
+//           className="btn-primary flex items-center space-x-2"
+//         >
+//           <Upload size={20} />
+//           <span>Select Image</span>
+//         </button>
+//       </div>
 
-      {/* Upload Error */}
-      {uploadError && (
-        <div className="mt-4 p-4 border border-red-500 rounded-md text-red-600">
-          <AlertCircle size={20} className="inline-block mr-2" />
-          {uploadError}
-        </div>
-      )}
+//       {/* Upload Button */}
+//       {previewUrl && (
+//         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4">
+//           <button
+//             onClick={handleUpload}
+//             className="btn-primary w-full py-3 flex items-center justify-center"
+//             disabled={isUploading}
+//           >
+//             {isUploading ? "Uploading..." : "Upload to Cloudinary"}
+//           </button>
+//         </motion.div>
+//       )}
+
+//       {/* Upload Success */}
+//       {uploadedImageUrl && (
+//         <div className="mt-4 p-4 border border-green-500 rounded-md text-green-600">
+//           <Check size={20} className="inline-block mr-2" />
+//           Upload successful! <a href={uploadedImageUrl} target="_blank" className="text-blue-500">View Image</a>
+//         </div>
+//       )}
+
+//       {/* Upload Error */}
+//       {uploadError && (
+//         <div className="mt-4 p-4 border border-red-500 rounded-md text-red-600">
+//           <AlertCircle size={20} className="inline-block mr-2" />
+//           {uploadError}
+//         </div>
+//       )}
 
 
       
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
 
-export default UploadComponent;
+// export default UploadComponent;
