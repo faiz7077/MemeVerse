@@ -71,7 +71,7 @@ const Leaderboard: React.FC = () => {
           <h2 className="text-xl font-bold text-white">Top Memes</h2>
         </div>
         <p className="text-indigo-100 text-sm">
-          The most popular memes based on likes, comments, and views
+          The most popular memes based on likes and comments
         </p>
       </div>
       
