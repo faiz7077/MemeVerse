@@ -26,7 +26,7 @@ function App() {
               {/* <Route path="/upload" element={<MemeUpload />} /> */}
               <Route path="/meme/:id" element={<MemeDetails />} />
               <Route path="/profile" element={<UserProfile />} />
-{/*               <Route path="/leaderboard" element={<Leaderboard />} /> */}
+              <Route path="/leaderboard" element={<Leaderboard />} />
               {/* <Route path="*" element={<NotFound />} /> */}
             </Routes>
           </Suspense>
